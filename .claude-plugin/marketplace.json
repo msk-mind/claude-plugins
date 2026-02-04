@@ -10,7 +10,7 @@
     {
       "name": "jira-toolkit",
       "description": "Comprehensive toolkit for working with Jira - create, update, search, and manage issues using the Jira REST API",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "author": {
         "name": "MSK MIND"
       },
@@ -21,7 +21,7 @@
     {
       "name": "confluence-toolkit",
       "description": "Comprehensive toolkit for working with Confluence - create, update, search, and manage documentation pages using the Confluence REST API",
-      "version": "1.0.1",
+      "version": "1.0.2",
       "author": {
         "name": "MSK MIND"
       },
