@@ -1,0 +1,20 @@
+{
+  "name": "msk-mind-claude-plugins",
+  "version": "1.0.0",
+  "description": "MSK MIND Claude Code plugins for Atlassian tools",
+  "repository": "https://github.com/msk-mind/claude-plugins",
+  "plugins": [
+    {
+      "name": "jira-toolkit",
+      "version": "1.0.0",
+      "description": "Work with Jira issues - create, update, search, assign, and manage issues",
+      "path": "./jira-toolkit"
+    },
+    {
+      "name": "confluence-toolkit",
+      "version": "1.0.0",
+      "description": "Work with Confluence pages - create, update, search, and manage documentation",
+      "path": "./confluence-toolkit"
+    }
+  ]
+}
