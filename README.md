@@ -11,17 +11,25 @@ A collection of Claude Code plugins for working with Atlassian tools.
 
 ## Installation
 
-### Quick Install (Recommended)
+### Option 1: Claude Code CLI
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/msk-mind/claude-plugins/main/install.sh | bash
+# Add the marketplace
+claude plugin add marketplace github:msk-mind/claude-plugins
+
+# Install plugins
+claude plugin install jira-toolkit@msk-mind-plugins
+claude plugin install confluence-toolkit@msk-mind-plugins
 ```
 
-### Manual Install
+### Option 2: Inside Claude Code
 
-```bash
-git clone https://github.com/msk-mind/claude-plugins.git ~/.claude/plugins/msk-mind
+Type in Claude Code:
 ```
+/install-plugin msk-mind/claude-plugins
+```
+
+Then enable the plugins you want.
 
 ## Configuration
 
@@ -72,7 +80,8 @@ After installation, restart Claude Code. The plugins will be available automatic
 ## Updating
 
 ```bash
-cd ~/.claude/plugins/msk-mind && git pull
+claude plugin update jira-toolkit@msk-mind-plugins
+claude plugin update confluence-toolkit@msk-mind-plugins
 ```
 
 ## License

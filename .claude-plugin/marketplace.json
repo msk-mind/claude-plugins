@@ -1,0 +1,33 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "msk-mind-plugins",
+  "description": "MSK MIND Claude Code plugins for Atlassian tools",
+  "owner": {
+    "name": "MSK MIND",
+    "email": "support@msk-mind.org"
+  },
+  "plugins": [
+    {
+      "name": "jira-toolkit",
+      "description": "Comprehensive toolkit for working with Jira - create, update, search, and manage issues using the Jira REST API",
+      "version": "1.0.0",
+      "author": {
+        "name": "MSK MIND"
+      },
+      "source": "./plugins/jira-toolkit",
+      "category": "productivity",
+      "homepage": "https://github.com/msk-mind/claude-plugins"
+    },
+    {
+      "name": "confluence-toolkit",
+      "description": "Comprehensive toolkit for working with Confluence - create, update, search, and manage documentation pages using the Confluence REST API",
+      "version": "1.0.0",
+      "author": {
+        "name": "MSK MIND"
+      },
+      "source": "./plugins/confluence-toolkit",
+      "category": "productivity",
+      "homepage": "https://github.com/msk-mind/claude-plugins"
+    }
+  ]
+}
