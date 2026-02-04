@@ -26,27 +26,28 @@ Then use `$CONFLUENCE_HELPER` for all operations below.
 ### Search Confluence
 ```bash
 $CONFLUENCE_HELPER search "query text"
-$CONFLUENCE_HELPER search "space=MYSPACE AND title~'keyword'"
+$CONFLUENCE_HELPER search 'text~"keyword"'
 ```
 
 ### Get Page Content
 ```bash
-$CONFLUENCE_HELPER get-page PAGE_ID
+$CONFLUENCE_HELPER get PAGE_ID
 ```
 
 ### Create Page
 ```bash
-$CONFLUENCE_HELPER create-page SPACE_KEY "Page Title" "Page content here"
+$CONFLUENCE_HELPER create SPACE_KEY "Page Title" "Page content here"
+$CONFLUENCE_HELPER create SPACE_KEY "Page Title" "Content" PARENT_ID
 ```
 
 ### Update Page
 ```bash
-$CONFLUENCE_HELPER update-page PAGE_ID "New content"
+$CONFLUENCE_HELPER update PAGE_ID "New Title" "New content"
 ```
 
 ### List Spaces
 ```bash
-$CONFLUENCE_HELPER list-spaces
+$CONFLUENCE_HELPER spaces
 ```
 
 ## Your Task
@@ -61,8 +62,8 @@ CONFLUENCE_HELPER=$(ls ~/.claude/plugins/cache/msk-mind-plugins/confluence-toolk
 Then execute the appropriate command using `$CONFLUENCE_HELPER` and report the results.
 
 Common patterns:
-- "search for X" → use search command
-- "create a page" → use create-page command
-- "update page ID" → use update-page command
-- "get content from" → use get-page command
-- "list spaces" → use list-spaces command
+- "search for X" → use `search` command
+- "create a page" → use `create` command
+- "update page ID" → use `update` command
+- "get content from" → use `get` command
+- "list spaces" → use `spaces` command
