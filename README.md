@@ -1,6 +1,6 @@
 # MSK MIND Claude Plugins
 
-A collection of Claude Code plugins for working with Atlassian tools.
+Claude Code plugins for working with Atlassian tools (Jira and Confluence).
 
 ## Plugins
 
@@ -11,75 +11,64 @@ A collection of Claude Code plugins for working with Atlassian tools.
 
 ## Installation
 
-### Option 1: Claude Code CLI
-
 ```bash
 # Add the marketplace
-claude plugin add marketplace github:msk-mind/claude-plugins
+claude plugin marketplace add msk-mind/claude-plugins
 
 # Install plugins
 claude plugin install jira-toolkit@msk-mind-plugins
 claude plugin install confluence-toolkit@msk-mind-plugins
 ```
 
-### Option 2: Inside Claude Code
-
-Type in Claude Code:
-```
-/install-plugin msk-mind/claude-plugins
-```
-
-Then enable the plugins you want.
+Restart Claude Code after installation.
 
 ## Configuration
 
-Both plugins require Atlassian credentials. Create `~/.atlassian_env`:
+Create `~/.atlassian_env` with your credentials:
 
 ```bash
-ATLASSIAN_DOMAIN=your-domain.atlassian.net
-ATLASSIAN_EMAIL=your-email@example.com
-ATLASSIAN_API_TOKEN=your-api-token
+# For Jira
+export JIRA_URL=https://your-domain.atlassian.net
+export JIRA_API_TOKEN=your-jira-api-token
+
+# For Confluence
+export CONFLUENCE_URL=https://your-confluence.example.com/
+export CONFLUENCE_USERNAME=your-username
+export CONFLUENCE_API_TOKEN=your-confluence-api-token
+```
+
+Secure the file:
+```bash
+chmod 600 ~/.atlassian_env
 ```
 
 ### Getting an API Token
 
 1. Go to [Atlassian API Tokens](https://id.atlassian.com/manage-profile/security/api-tokens)
 2. Click "Create API token"
-3. Give it a label and copy the token
+3. Copy the token to your `~/.atlassian_env`
 
 ## Usage
 
-After installation, restart Claude Code. The plugins will be available automatically.
+After installation, just ask Claude naturally:
 
-### Jira Toolkit
+### Jira Examples
+- "Search for my open Jira issues"
+- "Create a bug ticket for the login issue"
+- "What's the status of PROJ-123?"
+- "Assign PROJ-456 to me"
+- "Add a comment to PROJ-789"
 
-```
-# Search for issues
-/jira search "project = MYPROJ AND status = Open"
-
-# Create an issue
-/jira create --project MYPROJ --type Task --summary "New task"
-
-# View an issue
-/jira view MYPROJ-123
-```
-
-### Confluence Toolkit
-
-```
-# Search for pages
-/confluence search "my documentation"
-
-# Create a page
-/confluence create --space MYSPACE --title "New Page" --content "Page content"
-
-# View a page
-/confluence view 12345678
-```
+### Confluence Examples
+- "Search Confluence for authentication docs"
+- "Get the content of page 12345678"
+- "List Confluence spaces"
+- "Create a new page in the DOCS space"
 
 ## Updating
 
 ```bash
+claude plugin marketplace update msk-mind-plugins
 claude plugin update jira-toolkit@msk-mind-plugins
 claude plugin update confluence-toolkit@msk-mind-plugins
 ```

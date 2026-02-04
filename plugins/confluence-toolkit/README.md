@@ -1,207 +1,113 @@
-# Confluence Toolkit Plugin
+# Confluence Toolkit
 
-A comprehensive Claude Code plugin for working with Atlassian Confluence. This plugin provides skills and commands for creating, updating, searching, and managing Confluence documentation.
+Claude Code plugin for working with Atlassian Confluence.
 
 ## Features
 
-- **Search Confluence Content** - Use CQL (Confluence Query Language) to search pages and content
-- **Create Pages** - Create new documentation pages with proper formatting
+- **Search** - Find pages using CQL (Confluence Query Language)
+- **Get Pages** - Retrieve page content by ID
+- **Create Pages** - Create new documentation pages
 - **Update Pages** - Update existing pages with version control
-- **Manage Spaces** - List and work with Confluence spaces
-- **Work with Attachments** - Upload and manage page attachments
-- **Content Formatting** - Support for Confluence storage format (HTML with macros)
+- **List Spaces** - View available Confluence spaces
 
 ## Setup
 
-### Prerequisites
+### 1. Create credentials file
 
-1. Confluence account with API access
-2. API token generated from Atlassian account settings
-
-### Configuration
-
-Create a `~/.atlassian_env` file with your Confluence credentials:
+Create `~/.atlassian_env`:
 
 ```bash
-export CONFLUENCE_URL=https://your-domain.atlassian.net/wiki/
-export CONFLUENCE_USERNAME=your-email@example.com
-export CONFLUENCE_API_TOKEN=your-api-token-here
+export CONFLUENCE_URL=https://your-confluence.example.com/
+export CONFLUENCE_USERNAME=your-username
+export CONFLUENCE_API_TOKEN=your-api-token
 ```
 
-**To generate an API token:**
-1. Go to https://id.atlassian.com/manage-profile/security/api-tokens
-2. Click "Create API token"
-3. Give it a name and copy the token
-4. Add it to your `~/.atlassian_env` file
-
-### Permissions
-
-Ensure the `~/.atlassian_env` file is only readable by you:
+### 2. Secure the file
 
 ```bash
 chmod 600 ~/.atlassian_env
 ```
 
+### 3. Generate API Token
+
+1. Go to https://id.atlassian.com/manage-profile/security/api-tokens
+2. Click "Create API token"
+3. Copy the token to your `~/.atlassian_env`
+
 ## Installation
 
-### Option 1: Copy to External Plugins Directory
-
-If you have access to the Claude plugins marketplace directory:
-
 ```bash
-cp -r ~/confluence-skill ~/.claude/plugins/marketplaces/claude-plugins-official/external_plugins/confluence-toolkit
+claude plugin marketplace add msk-mind/claude-plugins
+claude plugin install confluence-toolkit@msk-mind-plugins
 ```
 
-### Option 2: Use as Local Plugin
-
-Keep the plugin in your home directory and reference it directly. The plugin will automatically be available if placed in the correct location.
+Restart Claude Code after installation.
 
 ## Usage
 
-### Available Skills
+Just ask Claude naturally:
 
-#### `/confluence-operations`
+- "Search Confluence for authentication docs"
+- "Get the content of page 241631425"
+- "List all Confluence spaces"
+- "Create a page in DOCS space called 'API Guide'"
 
-Comprehensive skill for all Confluence operations including:
-- Creating and updating pages
-- Searching content with CQL
-- Managing spaces and attachments
-- Working with page hierarchies
+## Helper Script Commands
 
-**Example usage:**
-- "Search Confluence for authentication documentation"
-- "Create a new page in the DOCS space called 'API Guide'"
-- "Update the Release Notes page with new features"
-- "Find all pages in the Engineering space"
-
-## Skills Overview
-
-### Confluence Operations
-
-**When to use:**
-- Need to create or update documentation
-- Search for existing content
-- Manage page hierarchies
-- Work with attachments
-
-**Common workflows:**
-1. **Create Documentation**: Search for parent page → Create new child page
-2. **Update Documentation**: Search for page → Get current version → Update content
-3. **Search and Read**: Search with CQL → Get page content → Display results
-
-## API Reference
-
-This plugin uses the [Confluence REST API v2](https://developer.atlassian.com/cloud/confluence/rest/v2/intro/).
-
-**Base Endpoint:** `${CONFLUENCE_URL}rest/api/`
-
-**Authentication:** HTTP Basic Auth (username + API token)
-
-## Examples
-
-### Create a New Page
+The plugin uses a helper script with these commands:
 
 ```bash
-source ~/.atlassian_env
+# Search pages
+confluence-helper.sh search 'text~"keyword"'
 
-curl -u "$CONFLUENCE_USERNAME:$CONFLUENCE_API_TOKEN" \
-  -X POST \
-  "${CONFLUENCE_URL}rest/api/content" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "type": "page",
-    "title": "My New Page",
-    "space": {"key": "DOCS"},
-    "body": {
-      "storage": {
-        "value": "<h1>Hello World</h1><p>This is my page content.</p>",
-        "representation": "storage"
-      }
-    }
-  }'
+# Get page by ID
+confluence-helper.sh get PAGE_ID
+
+# Create page
+confluence-helper.sh create SPACE_KEY "Title" "Content" [PARENT_ID]
+
+# Update page
+confluence-helper.sh update PAGE_ID "New Title" "New Content"
+
+# List spaces
+confluence-helper.sh spaces
 ```
 
-### Search for Pages
+## CQL Query Examples
 
 ```bash
-source ~/.atlassian_env
+# Text search
+'text~"authentication"'
 
-curl -u "$CONFLUENCE_USERNAME:$CONFLUENCE_API_TOKEN" \
-  "${CONFLUENCE_URL}rest/api/content/search?cql=text~\"search term\""
-```
+# Search in specific space
+'space=DOCS AND text~"api"'
 
-### Update a Page
+# Find pages by title
+'title~"Release Notes"'
 
-```bash
-source ~/.atlassian_env
-
-# Get current version
-PAGE_ID="123456"
-VERSION=$(curl -s -u "$CONFLUENCE_USERNAME:$CONFLUENCE_API_TOKEN" \
-  "${CONFLUENCE_URL}rest/api/content/${PAGE_ID}?expand=version" | \
-  jq -r '.version.number')
-
-# Update with incremented version
-curl -u "$CONFLUENCE_USERNAME:$CONFLUENCE_API_TOKEN" \
-  -X PUT \
-  "${CONFLUENCE_URL}rest/api/content/${PAGE_ID}" \
-  -H "Content-Type: application/json" \
-  -d "{
-    \"id\": \"${PAGE_ID}\",
-    \"type\": \"page\",
-    \"title\": \"Updated Title\",
-    \"version\": {\"number\": $((VERSION + 1))},
-    \"body\": {
-      \"storage\": {
-        \"value\": \"<p>Updated content</p>\",
-        \"representation\": \"storage\"
-      }
-    }
-  }"
+# Recently modified
+'lastModified > now("-7d")'
 ```
 
 ## Troubleshooting
 
-### Common Issues
+### 401 Unauthorized
+- Check your API token in `~/.atlassian_env`
+- Verify CONFLUENCE_USERNAME matches the token owner
 
-**"401 Unauthorized"**
-- Verify your API token is correct in `~/.atlassian_env`
-- Make sure you've sourced the environment file: `source ~/.atlassian_env`
-- Check that the username matches the API token owner
+### 404 Not Found
+- Verify the page ID or space key exists
+- Check your permissions
 
-**"409 Conflict" when updating**
-- Version number might be incorrect
-- Someone else may have updated the page
-- Get the latest version and try again
+### Parse errors
+- Ensure the API returns valid JSON
+- Check your CONFLUENCE_URL ends with `/`
 
-**"404 Not Found"**
-- Page ID or space key is incorrect
-- Page may have been deleted or moved
-- Check your permissions to access the page
+## Dependencies
 
-### Debug Mode
-
-Add the `-v` flag to curl commands to see detailed request/response information:
-
-```bash
-curl -v -u "$CONFLUENCE_USERNAME:$CONFLUENCE_API_TOKEN" \
-  "${CONFLUENCE_URL}rest/api/content/${PAGE_ID}"
-```
-
-## Contributing
-
-This is a local plugin. Feel free to modify and extend it for your needs.
+- `curl` - API requests
+- `jq` - JSON parsing
 
 ## License
 
-MIT License - Free to use and modify
-
-## Resources
-
-- [Confluence REST API Documentation](https://developer.atlassian.com/cloud/confluence/rest/v2/intro/)
-- [Confluence Storage Format Guide](https://confluence.atlassian.com/doc/confluence-storage-format-790796544.html)
-- [CQL (Confluence Query Language) Reference](https://developer.atlassian.com/cloud/confluence/advanced-searching-using-cql/)
-
-## Support
-
-For issues or questions about this plugin, please refer to the skill documentation in `skills/confluence-operations/SKILL.md`.
+MIT
