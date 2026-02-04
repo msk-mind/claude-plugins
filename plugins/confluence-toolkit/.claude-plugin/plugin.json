@@ -1,15 +1,8 @@
 {
   "name": "confluence-toolkit",
-  "version": "1.0.0",
   "description": "Comprehensive toolkit for working with Confluence - create, update, search, and manage documentation pages using the Confluence REST API. Uses credentials from ~/.atlassian_env.",
   "author": {
     "name": "MSK MIND",
     "url": "https://github.com/msk-mind"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/msk-mind/claude-plugins.git"
-  },
-  "license": "MIT",
-  "keywords": ["confluence", "atlassian", "documentation", "wiki"]
+  }
 }

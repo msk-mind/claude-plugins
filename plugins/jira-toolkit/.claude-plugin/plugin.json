@@ -1,15 +1,8 @@
 {
   "name": "jira-toolkit",
-  "version": "1.0.0",
   "description": "Comprehensive toolkit for working with Jira - create, update, search, and manage issues using the Jira REST API. Uses credentials from ~/.atlassian_env.",
   "author": {
     "name": "MSK MIND",
     "url": "https://github.com/msk-mind"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/msk-mind/claude-plugins.git"
-  },
-  "license": "MIT",
-  "keywords": ["jira", "atlassian", "issue-tracking", "project-management"]
+  }
 }
